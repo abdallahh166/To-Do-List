@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/all.min.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <title>To-Do-List</title>
+</head>
+
+<body>
+  <section class="vh-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-12 col-xl-10">
+  
+          <div class="card mask-custom shadow">
+            <div class="card-body p-4 text-white">
+  
+              <!-- Header Section -->
+              <div class="text-center pt-3 pb-2">
+                <img src="/images/check1.png" alt="Check" width="60" class="img-fluid">
+                <h2 class="my-4">Task List</h2>
+              </div>
+  
+              <!-- Input Section -->
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                  <div class="input-group mb-3">
+                    <input type="text" id="taskInput" class="form-control" placeholder="Enter a task">
+                    <select id="priorityInput" class="form-select">
+                      <option value="High">High Priority</option>
+                      <option value="Medium">Medium Priority</option>
+                      <option value="Low" selected>Low Priority</option>
+                    </select>
+                    <button id="addBtn" class="btn btn-primary">Add Task</button>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Table Section -->
+              <div class="table-responsive">
+                <table class="table text-white mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="w-50 text-wrap">Task</th>
+                      <th scope="col" class="text-center w-25">Priority</th>
+                      <th scope="col" class="text-center w-25">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="fw-normal tableRowData">
+                    <!-- Dynamic Content Will Be Added Here -->
+                  </tbody>
+                </table>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+</body>
+<script src="./js/bootstrap.bundle.min.js"></script>
+<script src="/js/all.min.js"></script>
+<script src="./js/main.js"></script>
+
+</html>
