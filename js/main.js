@@ -129,6 +129,8 @@ document.querySelector("#saveBtn").addEventListener("click", function () {
         //It ensures that the next edit doesn't mistakenly use the previous task's index.
     }
     saveBtn.classList.add("d-none")
+    addBtn.classList.remove("d-none")
+
 
 });
 
