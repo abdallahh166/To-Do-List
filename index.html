@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/all.min.css">
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
   <title>To-Do-List</title>
 </head>
 
@@ -15,16 +15,16 @@
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-md-12 col-xl-10">
-  
+
           <div class="card mask-custom shadow">
             <div class="card-body p-4 text-white">
-  
+
               <!-- Header Section -->
               <div class="text-center pt-3 pb-2">
-                <img src="/images/check1.png" alt="Check" width="60" class="img-fluid">
+                <img src="images/check1.png" alt="Check" width="60" class="img-fluid">
                 <h2 class="my-4">Task List</h2>
               </div>
-  
+
               <!-- Input Section -->
               <div class="row justify-content-center">
                 <div class="col-12 col-md-10 col-lg-8">
@@ -37,9 +37,12 @@
                     </select>
                     <button id="addBtn" class="btn btn-primary">Add Task</button>
                   </div>
+                  <div class="saveBtn d-none justify-content-center mt-2 mb-3">
+                    <button id="saveBtn" class="btn btn-primary">Save Edit</button>
+                  </div>
                 </div>
               </div>
-  
+
               <!-- Table Section -->
               <div class="table-responsive">
                 <table class="table text-white mb-0">
@@ -55,18 +58,19 @@
                   </tbody>
                 </table>
               </div>
-  
+
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
+
 
 </body>
-<script src="./js/bootstrap.bundle.min.js"></script>
-<script src="/js/all.min.js"></script>
-<script src="./js/main.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/all.min.js"></script>
+<script src="js/main.js"></script>
 
 </html>

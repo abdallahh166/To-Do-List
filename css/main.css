@@ -26,3 +26,14 @@
     box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
   }
 
+  .table-responsive {
+    max-height: 300px; /* Set the maximum height for the table */
+    overflow-y: auto;  /* Add vertical scroll when the content exceeds max-height */
+  }
+  
+  .card-body {
+    padding: 2rem; /* Keep the padding */
+    overflow-y: auto; /* Allow scrolling for content overflow */
+    height: 100%; /* Ensure the card adapts to available height */
+  }
+  

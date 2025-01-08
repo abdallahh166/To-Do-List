@@ -1,35 +1,38 @@
-
 let addBtn = document.querySelector("#addBtn")
+let saveBtn = document.querySelector(".saveBtn")
+
 let taskInput = document.querySelector("#taskInput")
 let priorityInput = document.querySelector("#priorityInput")
 
 
-let taskRemove = document.querySelector(".taskRemove")
-
-
-
 addBtn.addEventListener("click", function () {
-
     addTask()
-    console.log("hello")
 })
 
-
-
 let tasks = []
-
 
 if (localStorage.getItem("task") != null) {
     tasks = JSON.parse(localStorage.getItem("task"))
     displayTask(tasks)
 }
 
-
 async function addTask() {
 
+    let title = taskInput.value;
+    let regex = {
+        title: /^[a-zA-Z][a-zA-Z0-9_ ]{5,20}$/ 
+    };
+
+    // Check if the title matches the regex pattern
+    if (!regex.title.test(title)) {
+        swal("Title must be between 5 and 20 characters long, and start with a letter.");
+        return; // Stop the function if validation fails
+    }
+
     let task = {
-        title: taskInput.value,
+        title: title,
         priority: priorityInput.value,
+        done: false // Add this property to track the completion status
     }
 
     tasks.push(task)
@@ -48,11 +51,14 @@ function displayTask(array) {
 
         const priorityColor = getPriorityColor(array[i].priority);
 
+        // If the task is done, apply the text-decoration-line-through class
+        const doneClass = array[i].done ? 'text-decoration-line-through' : '';
+
         card += `
             <tr>
                 <td class="align-middle">
                     <div class="d-flex flex-column">
-                        <span class="fw-bold taskHead">${array[i].title}</span>
+                        <span class="fw-bold taskHead ${doneClass}">${array[i].title}</span>
                         <small class="text-muted">Added on: ${new Date().toLocaleDateString()}</small>
                     </div>
                 </td>
@@ -93,6 +99,59 @@ function getPriorityColor(priority) {
     return "bg-secondary";
 }
 
+let editIndex = null;
+
+document.querySelector(".tableRowData").addEventListener("click", function (e) {
+    if (e.target.closest(".taskEdit")) {
+        const index = e.target.closest(".taskEdit").getAttribute("data-index");
+        setFromValueUpdate(index)
+
+        saveBtn.classList.replace("d-none", "d-flex")
+        addBtn.classList.add("d-none")
+
+
+        editIndex = index;
+    }
+})
+
+function setFromValueUpdate(index) {
+
+    taskInput.value = tasks[index].title
+    priorityInput.value = tasks[index].priority
+
+
+}
+
+document.querySelector("#saveBtn").addEventListener("click", function () {
+    if (editIndex !== null) {
+        editTask(editIndex);
+        editIndex = null; //why intial it by null and clear it by null in the end?
+        //It ensures that the next edit doesn't mistakenly use the previous task's index.
+    }
+    saveBtn.classList.add("d-none")
+
+});
+
+function editTask(index) {
+
+    let updatedTasks = {
+        title: taskInput.value,
+        priority: priorityInput.value,
+        done: tasks[index].done // Keep the 'done' status intact
+    }
+
+    tasks.splice(index, 1, updatedTasks)
+
+    // Save the updated tasks array to localStorage
+    localStorage.setItem("task", JSON.stringify(tasks));
+
+    // Re-render the task list
+    displayTask(tasks);
+
+    // Clear the input fields after saving
+    taskInput.value = "";
+    priorityInput.value = "High"; // Reset to default priority
+}
 
 // Add event delegation for task removal
 document.querySelector(".tableRowData").addEventListener("click", function (e) {
@@ -107,5 +166,25 @@ function deleteTask(index) {
     tasks.splice(index, 1)
     localStorage.setItem("task", JSON.stringify(tasks))
     displayTask(tasks)
+
+}
+
+document.querySelector(".tableRowData").addEventListener("click", function (e) {
+    if (e.target.closest(".taskDone")) {
+        const index = e.target.closest(".taskDone").getAttribute("data-index");
+        doneTask(index);
+    }
+})
+
+function doneTask(index) {
+
+    // Mark the task as done by setting the 'done' property to true
+    //tasks[index].done = true;
+
+    // Toggle the 'done' status (mark as done or undo done)
+    tasks[index].done = !tasks[index].done;
+    
+    localStorage.setItem("task", JSON.stringify(tasks));
+    displayTask(tasks);
 
 }
