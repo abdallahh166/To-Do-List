@@ -24,15 +24,16 @@ async function addTask() {
     };
 
     // Check if the title matches the regex pattern
-    if (!regex.title.test(title)) {
+    if (!regex.title.test(title.trim())) {
         swal("Title must be between 5 and 20 characters long, and start with a letter.");
-        return; // Stop the function if validation fails
+        return;
     }
 
     let task = {
         title: title,
-        priority: priorityInput.value,
-        done: false // Add this property to track the completion status
+        priority: priorityInput.value = "Low",
+        done: false, // Add this property to track the completion status
+        addedOn: new Date().toLocaleDateString()
     }
 
     tasks.push(task)
@@ -41,7 +42,7 @@ async function addTask() {
 
     // Clear input fields after adding task
     taskInput.value = "";
-    priorityInput.value = "High"; // Reset to default priority
+    priorityInput.value = "Low"; // Reset to default priority
 }
 
 function displayTask(array) {
@@ -50,7 +51,6 @@ function displayTask(array) {
     for (let i = 0; i < array.length; i++) {
 
         const priorityColor = getPriorityColor(array[i].priority);
-
         // If the task is done, apply the text-decoration-line-through class
         const doneClass = array[i].done ? 'text-decoration-line-through' : '';
 
@@ -59,7 +59,7 @@ function displayTask(array) {
                 <td class="align-middle">
                     <div class="d-flex flex-column">
                         <span class="fw-bold taskHead ${doneClass}">${array[i].title}</span>
-                        <small class="text-muted">Added on: ${new Date().toLocaleDateString()}</small>
+                        <small class="text-muted">Added on: ${array[i].addedOn}</small>
                     </div>
                 </td>
 
@@ -119,7 +119,10 @@ function setFromValueUpdate(index) {
     taskInput.value = tasks[index].title
     priorityInput.value = tasks[index].priority
 
-
+     // Toggle Button Visibility
+     saveBtn.classList.replace("d-none","d-flex");
+     addBtn.classList.add("d-none");
+     editIndex = index;
 }
 
 document.querySelector("#saveBtn").addEventListener("click", function () {
@@ -127,19 +130,28 @@ document.querySelector("#saveBtn").addEventListener("click", function () {
         editTask(editIndex);
         editIndex = null; //why intial it by null and clear it by null in the end?
         //It ensures that the next edit doesn't mistakenly use the previous task's index.
+        resetButtonState()
+
     }
-    saveBtn.classList.add("d-none")
-    addBtn.classList.remove("d-none")
-
-
 });
 
 function editTask(index) {
 
+    let title = taskInput.value.trim();
+
+    // Validate Task Title
+    let regex = /^[a-zA-Z][a-zA-Z0-9_ ]{3,20}$/;
+    if (!regex.test(title)) {
+        swal("Title must be between 5 and 20 characters long, and start with a letter.");
+        return;
+    }
+
     let updatedTasks = {
-        title: taskInput.value,
+        title: title,
         priority: priorityInput.value,
-        done: tasks[index].done // Keep the 'done' status intact
+        done: tasks[index].done, // Keep the 'done' status intact
+        addedOn: tasks[index].addedOn // Retain original creation date
+
     }
 
     tasks.splice(index, 1, updatedTasks)
@@ -152,7 +164,13 @@ function editTask(index) {
 
     // Clear the input fields after saving
     taskInput.value = "";
-    priorityInput.value = "High"; // Reset to default priority
+    priorityInput.value = "Low"; // Reset to default priority
+}
+
+function resetButtonState() {
+    saveBtn.classList.add("d-none");
+    addBtn.classList.remove("d-none");
+    editIndex = null; // Reset edit index
 }
 
 // Add event delegation for task removal
@@ -179,9 +197,6 @@ document.querySelector(".tableRowData").addEventListener("click", function (e) {
 })
 
 function doneTask(index) {
-
-    // Mark the task as done by setting the 'done' property to true
-    //tasks[index].done = true;
 
     // Toggle the 'done' status (mark as done or undo done)
     tasks[index].done = !tasks[index].done;
