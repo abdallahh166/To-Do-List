@@ -31,7 +31,7 @@ async function addTask() {
 
     let task = {
         title: title,
-        priority: priorityInput.value = "Low",
+        priority: priorityInput.value,
         done: false, // Add this property to track the completion status
         addedOn: new Date().toLocaleDateString()
     }
